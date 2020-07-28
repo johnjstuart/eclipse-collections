@@ -62,6 +62,7 @@ public class ImmutableHashBiMapTest extends AbstractImmutableBiMapTestCase
     @Test
     public void keySet()
     {
+        // Assert.assertEquals(this.classUnderTest().castToMap().keySet(),UnifiedSet.newSetWith(1, 2, 3, 4));
         Verify.assertSetsEqual(UnifiedSet.newSetWith(1, 2, 3, 4), this.classUnderTest().castToMap().keySet());
     }
 }

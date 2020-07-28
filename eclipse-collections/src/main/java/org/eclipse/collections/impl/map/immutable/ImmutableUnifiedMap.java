@@ -24,6 +24,7 @@ import org.eclipse.collections.api.block.procedure.primitive.ObjectIntProcedure;
 import org.eclipse.collections.api.map.ImmutableMap;
 import org.eclipse.collections.api.tuple.Pair;
 import org.eclipse.collections.impl.collection.mutable.UnmodifiableMutableCollection;
+import org.eclipse.collections.impl.factory.Sets;
 import org.eclipse.collections.impl.map.mutable.UnifiedMap;
 import org.eclipse.collections.impl.parallel.BatchIterable;
 import org.eclipse.collections.impl.set.mutable.UnmodifiableMutableSet;
@@ -120,9 +121,9 @@ public class ImmutableUnifiedMap<K, V>
     }
 
     @Override
-    public Set<K> keySet()
+    public ImmutableKeySet<K> keySet()
     {
-        return UnmodifiableMutableSet.of(this.delegate.keySet());
+        return new ImmutableKeySet<>(this.delegate.keySet().toImmutable());
     }
 
     @Override

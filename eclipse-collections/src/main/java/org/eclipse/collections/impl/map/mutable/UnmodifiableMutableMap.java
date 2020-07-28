@@ -84,8 +84,10 @@ import org.eclipse.collections.api.set.sorted.MutableSortedSet;
 import org.eclipse.collections.api.tuple.Pair;
 import org.eclipse.collections.impl.UnmodifiableIteratorAdapter;
 import org.eclipse.collections.impl.UnmodifiableMap;
+import org.eclipse.collections.impl.set.mutable.SetAdapter;
 import org.eclipse.collections.impl.tuple.AbstractImmutableEntry;
 import org.eclipse.collections.impl.utility.LazyIterate;
+import org.eclipse.collections.impl.utility.MapIterate;
 
 /**
  * An unmodifiable view of a map.
@@ -388,6 +390,12 @@ public class UnmodifiableMutableMap<K, V>
     protected MutableMap<K, V> getMutableMap()
     {
         return (MutableMap<K, V>) this.delegate;
+    }
+
+    @Override
+    public MutableSet<K> keySet()
+    {
+        return SetAdapter.adapt(this.delegate.keySet()).asUnmodifiable();
     }
 
     @Override

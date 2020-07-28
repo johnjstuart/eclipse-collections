@@ -26,6 +26,7 @@ import org.eclipse.collections.api.map.MutableMap;
 import org.eclipse.collections.api.tuple.Pair;
 import org.eclipse.collections.impl.block.factory.HashingStrategies;
 import org.eclipse.collections.impl.collection.mutable.UnmodifiableMutableCollection;
+import org.eclipse.collections.impl.factory.Sets;
 import org.eclipse.collections.impl.map.immutable.AbstractImmutableMap;
 import org.eclipse.collections.impl.map.strategy.mutable.UnifiedMapWithHashingStrategy;
 import org.eclipse.collections.impl.parallel.BatchIterable;
@@ -137,9 +138,9 @@ public class ImmutableUnifiedMapWithHashingStrategy<K, V>
     }
 
     @Override
-    public Set<K> keySet()
+    public ImmutableKeySet<K> keySet()
     {
-        return UnmodifiableMutableSet.of(this.delegate.keySet());
+        return new ImmutableKeySet<K>(this.delegate.keySet().toImmutable()){};
     }
 
     @Override

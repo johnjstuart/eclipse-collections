@@ -27,6 +27,7 @@ import org.eclipse.collections.api.map.FixedSizeMap;
 import org.eclipse.collections.api.map.ImmutableMap;
 import org.eclipse.collections.api.map.MutableMap;
 import org.eclipse.collections.api.multimap.set.MutableSetMultimap;
+import org.eclipse.collections.api.set.FixedSizeSet;
 import org.eclipse.collections.api.set.MutableSet;
 import org.eclipse.collections.api.tuple.Pair;
 import org.eclipse.collections.impl.factory.Multimaps;
@@ -98,7 +99,7 @@ final class EmptyMap<K, V>
     }
 
     @Override
-    public Set<K> keySet()
+    public FixedSizeSet<K> keySet()
     {
         return Sets.fixedSize.of();
     }

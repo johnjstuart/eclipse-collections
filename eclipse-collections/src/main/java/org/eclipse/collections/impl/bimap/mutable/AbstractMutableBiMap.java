@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
 
 import org.eclipse.collections.api.RichIterable;
 import org.eclipse.collections.api.bag.MutableBag;
@@ -56,6 +57,7 @@ import org.eclipse.collections.api.multimap.set.MutableSetMultimap;
 import org.eclipse.collections.api.ordered.OrderedIterable;
 import org.eclipse.collections.api.partition.set.PartitionMutableSet;
 import org.eclipse.collections.api.set.MutableSet;
+import org.eclipse.collections.api.set.ParallelUnsortedSetIterable;
 import org.eclipse.collections.api.tuple.Pair;
 import org.eclipse.collections.impl.bimap.AbstractBiMap;
 import org.eclipse.collections.impl.block.factory.Predicates;
@@ -66,6 +68,7 @@ import org.eclipse.collections.impl.list.fixed.ArrayAdapter;
 import org.eclipse.collections.impl.map.mutable.UnifiedMap;
 import org.eclipse.collections.impl.multimap.set.UnifiedSetMultimap;
 import org.eclipse.collections.impl.partition.set.PartitionUnifiedSet;
+import org.eclipse.collections.impl.set.mutable.AbstractMutableSet;
 import org.eclipse.collections.impl.set.mutable.UnifiedSet;
 import org.eclipse.collections.impl.utility.Iterate;
 import org.eclipse.collections.impl.utility.MapIterate;
@@ -398,7 +401,7 @@ abstract class AbstractMutableBiMap<K, V> extends AbstractBiMap<K, V> implements
     }
 
     @Override
-    public Set<K> keySet()
+    public MutableSet<K> keySet()
     {
         return new KeySet();
     }
@@ -752,7 +755,7 @@ abstract class AbstractMutableBiMap<K, V> extends AbstractBiMap<K, V> implements
         }
     }
 
-    private class KeySet implements Set<K>, Serializable
+    private class KeySet extends AbstractMutableSet<K> implements Set<K>, Serializable
     {
         @Override
         public boolean equals(Object obj)
@@ -776,6 +779,26 @@ abstract class AbstractMutableBiMap<K, V> extends AbstractBiMap<K, V> implements
         public boolean isEmpty()
         {
             return AbstractMutableBiMap.this.isEmpty();
+        }
+
+        @Override
+        public K getFirst()
+        {
+            if (AbstractMutableBiMap.this.size() > 0)
+            {
+                return (K) this.toArray()[0];
+            }
+            return null;
+        }
+
+        @Override
+        public K getLast()
+        {
+            if (AbstractMutableBiMap.this.size() > 0)
+            {
+                return (K) this.toArray()[AbstractMutableBiMap.this.size() - 1];
+            }
+            return null;
         }
 
         @Override
@@ -821,6 +844,12 @@ abstract class AbstractMutableBiMap<K, V> extends AbstractBiMap<K, V> implements
                 }
             }
             return true;
+        }
+
+        @Override
+        public void each(Procedure<? super K> procedure)
+        {
+            AbstractMutableBiMap.this.delegate.keySet().each(procedure);
         }
 
         @Override
@@ -879,6 +908,13 @@ abstract class AbstractMutableBiMap<K, V> extends AbstractBiMap<K, V> implements
             MutableSet<K> replace = UnifiedSet.newSet(AbstractMutableBiMap.this.size());
             AbstractMutableBiMap.this.forEachKey(CollectionAddProcedure.on(replace));
             return replace;
+        }
+
+        @Override
+        public ParallelUnsortedSetIterable<K> asParallel(
+                ExecutorService executorService, int batchSize)
+        {
+            return AbstractMutableBiMap.this.delegate.keySet().asParallel(executorService, batchSize);
         }
     }
 

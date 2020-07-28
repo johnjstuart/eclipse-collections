@@ -91,6 +91,8 @@ import org.eclipse.collections.impl.map.mutable.primitive.ObjectLongHashMap;
 import org.eclipse.collections.impl.map.sorted.mutable.TreeSortedMap;
 import org.eclipse.collections.impl.multimap.list.FastListMultimap;
 import org.eclipse.collections.impl.partition.list.PartitionFastList;
+import org.eclipse.collections.impl.set.immutable.AbstractImmutableSet;
+import org.eclipse.collections.impl.set.sorted.immutable.AbstractImmutableSortedSet;
 import org.eclipse.collections.impl.utility.MapIterate;
 
 public abstract class AbstractImmutableSortedMap<K, V>
@@ -187,6 +189,9 @@ public abstract class AbstractImmutableSortedMap<K, V>
         }
         return sortedMap.toImmutable();
     }
+
+    @Override
+    public abstract AbstractImmutableSortedSet<K> keySet();
 
     @Override
     public V put(K key, V value)

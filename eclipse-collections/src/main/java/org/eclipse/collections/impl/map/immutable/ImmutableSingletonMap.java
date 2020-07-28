@@ -92,9 +92,9 @@ final class ImmutableSingletonMap<K, V>
     }
 
     @Override
-    public Set<K> keySet()
+    public ImmutableKeySet<K> keySet()
     {
-        return Sets.immutable.with(this.key1).castToSet();
+        return new ImmutableKeySet<>(Sets.immutable.with(this.key1));
     }
 
     @Override

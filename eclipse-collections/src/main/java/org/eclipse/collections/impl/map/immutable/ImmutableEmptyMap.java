@@ -27,6 +27,7 @@ import org.eclipse.collections.api.factory.Lists;
 import org.eclipse.collections.api.factory.Maps;
 import org.eclipse.collections.api.factory.Sets;
 import org.eclipse.collections.api.map.ImmutableMap;
+import org.eclipse.collections.api.set.ImmutableSet;
 import org.eclipse.collections.api.tuple.Pair;
 import org.eclipse.collections.impl.utility.LazyIterate;
 
@@ -84,9 +85,9 @@ final class ImmutableEmptyMap<K, V>
     }
 
     @Override
-    public Set<K> keySet()
+    public ImmutableKeySet<K> keySet()
     {
-        return Sets.immutable.<K>of().castToSet();
+        return new ImmutableKeySet<>(Sets.immutable.<K>of());
     }
 
     @Override

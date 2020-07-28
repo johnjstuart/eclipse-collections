@@ -42,6 +42,7 @@ import org.eclipse.collections.api.multimap.set.MutableSetMultimap;
 import org.eclipse.collections.api.ordered.OrderedIterable;
 import org.eclipse.collections.api.partition.bag.PartitionMutableBag;
 import org.eclipse.collections.api.set.MutableSet;
+import org.eclipse.collections.api.set.MutableSetIterable;
 import org.eclipse.collections.api.tuple.Pair;
 
 /**
@@ -250,4 +251,7 @@ public interface MutableMap<K, V>
 
     @Override
     MutableMap<K, V> withoutAllKeys(Iterable<? extends K> keys);
+
+    @Override
+    MutableSet<K> keySet();
 }

@@ -115,9 +115,9 @@ final class ImmutableTripletonMap<K, V>
     }
 
     @Override
-    public Set<K> keySet()
+    public ImmutableKeySet<K> keySet()
     {
-        return Sets.immutable.with(this.key1, this.key2, this.key3).castToSet();
+        return new ImmutableKeySet<>(Sets.immutable.with(this.key1, this.key2, this.key3));
     }
 
     @Override

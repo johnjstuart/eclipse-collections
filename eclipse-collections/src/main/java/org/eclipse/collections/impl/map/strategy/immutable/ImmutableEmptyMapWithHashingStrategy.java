@@ -12,6 +12,7 @@ package org.eclipse.collections.impl.map.strategy.immutable;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -30,6 +31,7 @@ import org.eclipse.collections.api.factory.Sets;
 import org.eclipse.collections.api.map.ImmutableMap;
 import org.eclipse.collections.api.tuple.Pair;
 import org.eclipse.collections.impl.map.immutable.AbstractImmutableMap;
+import org.eclipse.collections.impl.set.immutable.AbstractImmutableSet;
 import org.eclipse.collections.impl.utility.LazyIterate;
 
 /**
@@ -92,9 +94,9 @@ final class ImmutableEmptyMapWithHashingStrategy<K, V>
     }
 
     @Override
-    public Set<K> keySet()
+    public ImmutableKeySet<K> keySet()
     {
-        return Sets.immutable.<K>of().castToSet();
+        return new ImmutableKeySet<K>(Sets.immutable.<K>of()){};
     }
 
     @Override
@@ -235,5 +237,44 @@ final class ImmutableEmptyMapWithHashingStrategy<K, V>
     private Object writeReplace()
     {
         return new ImmutableMapWithHashingStrategySerializationProxy<>(this, this.hashingStrategy);
+    }
+
+    private class ImmutableEmptyKeySet<K> extends AbstractImmutableSet<K>
+    {
+        private final ImmutableKeySet<K> original;
+
+        ImmutableEmptyKeySet(ImmutableKeySet<K> keySet)
+        {
+            this.original = keySet;
+        }
+        @Override
+        public int size()
+        {
+            return this.original.size();
+        }
+
+        @Override
+        public K getFirst()
+        {
+            return null;
+        }
+
+        @Override
+        public K getLast()
+        {
+            return null;
+        }
+
+        @Override
+        public void each(Procedure<? super K> procedure)
+        {
+            this.original.each(procedure);
+        }
+
+        @Override
+        public Iterator<K> iterator()
+        {
+            return this.original.iterator();
+        }
     }
 }
